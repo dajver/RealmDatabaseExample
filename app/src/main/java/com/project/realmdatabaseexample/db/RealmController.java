@@ -38,10 +38,10 @@ public class RealmController {
         return realm.where(RealmModel.class).findAll();
     }
 
-    public void updateInfo(String title, String description) {
+    public void updateInfo(int id, String title, String description) {
         realm.beginTransaction();
 
-        RealmModel realmObject = realm.where(RealmModel.class).findFirst();
+        RealmModel realmObject = realm.where(RealmModel.class).equalTo("id", id).findFirst();
         realmObject.setTitle(title);
         realmObject.setDescription(description);
 

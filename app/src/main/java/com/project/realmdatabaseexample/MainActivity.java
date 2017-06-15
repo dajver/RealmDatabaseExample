@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements RealmAdapter.OnCl
 
     private static final int INTENT_REQUEST = 123;
 
+    public static final String ID = "id";
     public static final String TITLE = "title";
     public static final String DESCRIPTION = "description";
     public static final String IS_EDIT = "isEdit";
@@ -64,9 +65,10 @@ public class MainActivity extends AppCompatActivity implements RealmAdapter.OnCl
     }
 
     @Override
-    public void onEditButtonCLick(String title, String description) {
+    public void onEditButtonCLick(int id, String title, String description) {
         Intent intent = new Intent(this, AddItemActivity.class);
         intent.putExtra(IS_EDIT, true);
+        intent.putExtra(ID, id);
         intent.putExtra(TITLE, title);
         intent.putExtra(DESCRIPTION, description);
         startActivity(intent);

@@ -44,7 +44,7 @@ public class RealmAdapter extends RealmBaseAdapter<RealmModel> {
         viewHolder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onClickListener.onEditButtonCLick(model.getTitle(), model.getDescription());
+                onClickListener.onEditButtonCLick(model.getId(), model.getTitle(), model.getDescription());
             }
         });
         return convertView;
@@ -78,6 +78,6 @@ public class RealmAdapter extends RealmBaseAdapter<RealmModel> {
     }
 
     public interface OnClickListener {
-        void onEditButtonCLick(String title, String description);
+        void onEditButtonCLick(int id, String title, String description);
     }
 }

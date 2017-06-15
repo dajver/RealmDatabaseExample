@@ -11,6 +11,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.project.realmdatabaseexample.MainActivity.DESCRIPTION;
+import static com.project.realmdatabaseexample.MainActivity.ID;
 import static com.project.realmdatabaseexample.MainActivity.IS_EDIT;
 import static com.project.realmdatabaseexample.MainActivity.TITLE;
 
@@ -27,6 +28,7 @@ public class AddItemActivity extends AppCompatActivity {
     EditText description;
 
     private boolean isEditMode = false;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class AddItemActivity extends AppCompatActivity {
             isEditMode = getIntent().getExtras().getBoolean(IS_EDIT);
             title.setText(getIntent().getExtras().getString(TITLE));
             description.setText(getIntent().getExtras().getString(DESCRIPTION));
+            id = getIntent().getExtras().getInt(ID);
         }
     }
 
@@ -46,7 +49,7 @@ public class AddItemActivity extends AppCompatActivity {
         if(!isEditMode)
             new RealmController(this).addInfo(title.getText().toString(), description.getText().toString());
         else
-            new RealmController(this).updateInfo(title.getText().toString(), description.getText().toString());
+            new RealmController(this).updateInfo(id, title.getText().toString(), description.getText().toString());
         finish();
     }
 }
