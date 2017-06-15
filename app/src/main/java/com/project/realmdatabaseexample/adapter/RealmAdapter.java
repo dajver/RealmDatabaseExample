@@ -21,6 +21,8 @@ import io.realm.RealmResults;
 
 public class RealmAdapter extends RealmBaseAdapter<RealmModel> {
 
+    private OnClickListener onClickListener;
+
     public RealmAdapter(Context context, RealmResults<RealmModel> realmResults) {
         super(context, realmResults, true);
     }
@@ -30,14 +32,19 @@ public class RealmAdapter extends RealmBaseAdapter<RealmModel> {
         convertView = inflater.inflate(R.layout.item_realm, parent, false);
         RealmViewHolder viewHolder = new RealmViewHolder(convertView);
 
-        RealmModel model = getRealmResults().get(position);
+        final RealmModel model = getRealmResults().get(position);
         viewHolder.title.setText(model.getTitle());
         viewHolder.description.setText(model.getTitle());
         viewHolder.removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new RealmController(context).removeItemById(getRealmResults().get(position).getId());
-//                    notifyDataSetChanged();
+            }
+        });
+        viewHolder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickListener.onEditButtonCLick(model.getTitle(), model.getDescription());
             }
         });
         return convertView;
@@ -64,5 +71,13 @@ public class RealmAdapter extends RealmBaseAdapter<RealmModel> {
         public RealmViewHolder(final View itemView) {
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public interface OnClickListener {
+        void onEditButtonCLick(String title, String description);
     }
 }

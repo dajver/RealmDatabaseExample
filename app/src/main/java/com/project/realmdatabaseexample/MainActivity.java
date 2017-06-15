@@ -14,14 +14,18 @@ import com.project.realmdatabaseexample.db.RealmController;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RealmAdapter.OnClickListener {
 
     private static final int INTENT_REQUEST = 123;
+
+    public static final String TITLE = "title";
+    public static final String DESCRIPTION = "description";
+    public static final String IS_EDIT = "isEdit";
 
     @BindView(R.id.listView)
     ListView recyclerView;
 
-    private RealmAdapter realmRecyclerView;
+    private RealmAdapter realmAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        realmRecyclerView = new RealmAdapter(this, new RealmController(this).getInfo());
-        recyclerView.setAdapter(realmRecyclerView);
+        setupAdapter();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -49,9 +52,23 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void setupAdapter() {
+        realmAdapter = new RealmAdapter(this, new RealmController(this).getInfo());
+        realmAdapter.setOnClickListener(this);
+        recyclerView.setAdapter(realmAdapter);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        realmRecyclerView = new RealmAdapter(this, new RealmController(this).getInfo());
-        recyclerView.setAdapter(realmRecyclerView);
+        setupAdapter();
+    }
+
+    @Override
+    public void onEditButtonCLick(String title, String description) {
+        Intent intent = new Intent(this, AddItemActivity.class);
+        intent.putExtra(IS_EDIT, true);
+        intent.putExtra(TITLE, title);
+        intent.putExtra(DESCRIPTION, description);
+        startActivity(intent);
     }
 }
