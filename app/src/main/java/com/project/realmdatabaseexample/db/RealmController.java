@@ -4,8 +4,6 @@ import android.content.Context;
 
 import com.project.realmdatabaseexample.db.model.RealmModel;
 
-import java.util.ArrayList;
-
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
@@ -37,12 +35,6 @@ public class RealmController {
     }
 
     public RealmResults<RealmModel> getInfo() {
-        ArrayList<RealmModel> realmModels = new ArrayList<>();
-        RealmResults<RealmModel> results = realm.where(RealmModel.class).findAll();
-        for (int i = 0; i < results.size(); i++) {
-            RealmModel u = results.get(i);
-            realmModels.add(u);
-        }
         return realm.where(RealmModel.class).findAll();
     }
 
